@@ -2,11 +2,12 @@
  * https://github.com/kriasoft/react-static-boilerplate/blob/master/run.js
  */
 
-const config = require('./config')
-const webpack = require('webpack')
-const webpackConfig = require('./webpack.config')
+const fs = require('fs');
+const config = require('./config');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config');
 
-const tasks = new Map()
+const tasks = new Map();
 
 function run (task) {
   const start = new Date()
@@ -16,7 +17,7 @@ function run (task) {
   }, err => console.error(err.stack))
 }
 
-tasks.set('clean', () => require('del')([ config.dirs.dest ], { dot: true }))
+tasks.set('clean', () => require('del')([ config.dirs.dest ], { dot: true }));
 
 tasks.set('copy', (cb) => {
   const copy = require('copy')
@@ -26,7 +27,7 @@ tasks.set('copy', (cb) => {
   ]
 
   copy(wpThemeFiles, config.dirs.dest, cb)
-})
+});
 
 tasks.set('bundle', () => {
   return new Promise((resolve, reject) => {
@@ -39,7 +40,7 @@ tasks.set('bundle', () => {
       }
     })
   })
-})
+});
 
 tasks.set('devServer', () => {
   return new Promise((resolve, reject) => {
@@ -52,6 +53,7 @@ tasks.set('devServer', () => {
     browserSync.use(bsHtmlInjector)
 
     browserSync.init({
+      port: `${config.port}`,
       files: [
         `${config.dirs.dest}/index.php`,
         {
@@ -75,7 +77,7 @@ tasks.set('devServer', () => {
       }
     })
   })
-})
+});
 
 tasks.set('watch', () => {
   const chokidar = require('chokidar')
@@ -88,14 +90,14 @@ tasks.set('watch', () => {
   staticFilesWatcher.on('change', () => {
     run('copy')
   })
-})
+});
 
 tasks.set('build', () => {
   return Promise.resolve()
     .then(() => run('clean'))
     .then(() => run('copy'))
     .then(() => run('bundle'))
-})
+});
 
 tasks.set('start', () => {
   return Promise.resolve()
@@ -103,6 +105,6 @@ tasks.set('start', () => {
     .then(() => run('copy'))
     .then(() => run('watch'))
     .then(() => run('devServer'))
-})
+});
 
-run(/^\w/.test(process.argv[2] || '') ? process.argv[2] : 'start')
+run(/^\w/.test(process.argv[2] || '') ? process.argv[2] : 'start');

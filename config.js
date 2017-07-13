@@ -6,6 +6,7 @@ const wpSettings = yaml.safeLoad(fs.readFileSync('site.yml', 'utf8'))
 const themeName = pkg.name
 
 module.exports = {
+  port: 3004,
   dirs: {
     src: './src',
     dest: wpSettings.synced_folder + '/wp-content/themes/' + themeName

@@ -23,8 +23,8 @@ multisite: false
 rewrite_structure: /archives/%post_id%
 
 # WordPress Path
-wp_siteurl: ''  # Path to the WP_SITEURL like "wp"
-wp_home: ''     # Path to the WP_HOME like "wp"
+wp_siteurl: ''
+wp_home: ''
 
 # WordPress User
 admin_user: admin
@@ -33,7 +33,7 @@ admin_email: vccw@example.com
 
 # WordPress Options
 options:
-  blogdescription: ''
+  blogdescription: 'Theme boilerplate for WordPress using WP REST API and React.js'
 
 # WordPress Multisite Options
 multisite_options: {}
@@ -41,7 +41,7 @@ multisite_options: {}
 # WordPress Database
 db_prefix: wp_
 db_host: localhost
-db_name: wordpress
+db_name: wp_react-spa-boilerplate
 db_user: wordpress
 db_pass: wordpress
 
@@ -49,9 +49,12 @@ db_pass: wordpress
 # Plugin's slug or url to the plugin's slug.
 plugins:
   - debug-bar
+  - kint-debugger
   - rest-api
   - simple-wp-sitemap
   - theme-check
+  - wordpress-seo
+  - wp-api-menus
   - wp-multibyte-patch
 
 # WordPress Default Theme
@@ -61,6 +64,7 @@ plugins:
 # The values of wp-config.php
 force_ssl_admin: false
 wp_debug: true
+wp_debug_display: true
 savequeries: false
 
 # Addtional PHP code in the wp-config.php

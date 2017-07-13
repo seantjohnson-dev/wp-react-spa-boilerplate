@@ -1,17 +1,20 @@
 {
   "name": "wp-react-spa-boilerplate",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Theme boilerplate for WordPress using WP REST API and React.js",
+  "author": "blivesta",
   "private": true,
   "scripts": {
     "start": "node run start",
     "build": "node run build --production",
+    "copy": "node tools/copy.js",
     "vccw:clone": "git clone https://github.com/vccw-team/vccw",
     "vccw:checkout": "cd vccw && git checkout refs/tags/3.0.5",
     "vccw:copy": "cp -r ./vccw/provision ./provision && cp ./vccw/Vagrantfile ./Vagrantfile && cp ./vccw/ansible.cfg ./ansible.cfg",
     "vccw:remove": "rm -rf ./vccw",
     "vccw": "yarn run vccw:clone && yarn run vccw:checkout && yarn run vccw:copy && yarn run vccw:remove",
-    "setup": "yarn install && yarn run build && yarn run vccw && vagrant up && yarn run start",
+    "setup": "yarn run build && yarn run vccw && vagrant up && yarn run start",
+    "create": "node tools/create/createMessage.js && yarn install && node tools/create/create.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -34,20 +37,43 @@
     "babel-loader": "^6.0.1",
     "browser-sync": "^2.18.2",
     "bs-html-injector": "^3.0.3",
+    "chalk": "^2.0.1",
     "chokidar": "^1.6.1",
     "copy": "^0.3.0",
     "del": "^2.2.2",
     "json-loader": "^0.5.4",
+    "prompt": "^1.0.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.1.1",
+    "replace": "^0.3.0",
     "standard": "^8.3.0",
     "standard-loader": "^5.0.0",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2",
     "write-file-webpack-plugin": "^3.4.2"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "react-router",
+    "hot",
+    "reload",
+    "hmr",
+    "live",
+    "edit",
+    "webpack",
+    "redux",
+    "wp-api",
+    "boilerplate",
+    "wordpress",
+    "spa"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blivesta/wp-react-spa-boilerplate"
   },
   "babel": {
     "presets": [

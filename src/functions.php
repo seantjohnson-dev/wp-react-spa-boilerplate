@@ -1,5 +1,5 @@
 <?php
-$theme = wp_get_theme('wp-react-spa-boilerplate');
+$theme = wp_get_theme();
 $theme_version = $theme['Version'];
 
 class Main {
