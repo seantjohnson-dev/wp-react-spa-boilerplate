@@ -41,7 +41,7 @@ multisite_options: {}
 # WordPress Database
 db_prefix: wp_
 db_host: localhost
-db_name: wp_react-spa-boilerplate
+db_name: wp_react_spa_boilerplate
 db_user: wordpress
 db_pass: wordpress
 

@@ -38,25 +38,9 @@ function updateConfig(responses) {
     if (res.key == 'name') {
       // update site.yml with the user's values
 
-      // replace({
-      //   regex: `(wp_siteurl): (.*)`,
-      //   replacement: `$1: 'http://${res.value}.dev'`,
-      //   paths: ['site.yml'],
-      //   recursive: false,
-      //   silent: true
-      // });
-
-      // replace({
-      //   regex: `(wp_home): (.*)`,
-      //   replacement: `$1: 'http://${res.value}.dev'`,
-      //   paths: ['site.yml'],
-      //   recursive: false,
-      //   silent: true
-      // });
-
       replace({
         regex: `(db_name): (.*)`,
-        replacement: `$1: ${res.value.replace('-', '_').toLowerCase()}`,
+        replacement: `$1: ${res.value.replace(/-/g, '_').toLowerCase()}`,
         paths: ['site.yml'],
         recursive: false,
         silent: true
@@ -152,6 +136,18 @@ prompt.get(schema, function (err, result) {
       value: result.admin_email
     },
     {
+      key: 'db_user',
+      value: result.db_user
+    },
+    {
+      key: 'db_pass',
+      value: result.db_pass
+    },
+    {
+      key: 'db_prefix',
+      value: result.db_prefix
+    },
+    {
       key: 'author',
       styleKey: 'Author',
       value: result.author
@@ -185,5 +181,5 @@ prompt.get(schema, function (err, result) {
   fs.writeFileSync('provision-post.sh', '#!/usr/bin/env bash\n\nsudo -u vagrant -- wp theme activate ' + result.name);
 
   //Success Message
-  console.log(chalkSuccess('\nSetup complete! Run \'yarn setup\' to complete setup.\n'));
+  console.log(chalkSuccess('\nSetup complete! Edit the site.yml file to add/change more configuration options. When done, run \'yarn setup\' to complete setup.\n'));
 });

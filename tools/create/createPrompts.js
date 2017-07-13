@@ -88,6 +88,30 @@ module.exports = {
       format: 'email',
       required: true
     },
+    db_user: {
+      description: 'Database Username',
+      type: 'string',
+      default: 'wordpress',
+      pattern: /^[a-zA-Z0-9\-_]+$/,
+      message: 'Only letters, numbers, underscores and dashes are allowed.',
+      required: true
+    },
+    db_pass: {
+      description: 'Database Password',
+      type: 'string',
+      default: 'wordpress',
+      pattern: /^[.\S]+$/,
+      message: 'Password cannot be empty.',
+      required: true
+    },
+    db_prefix: {
+      description: 'Database Prefix',
+      type: 'string',
+      default: 'wp_',
+      pattern: /^[a-zA-Z0-9]+_$/,
+      message: 'Database prefix is required.',
+      required: true
+    },
     ip: {
       description: 'IP Address',
       type: 'string',
