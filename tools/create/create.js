@@ -90,6 +90,51 @@ prompt.start();
 
 prompt.get(schema, function (err, result) {
 
+  prompt.get([{
+    name: 'redux_devtools',
+    type: 'string',
+    description: 'Configure Redux Devtools Chrome Extension?  [y/n]',
+    default: 'n',
+    pattern: /^[yn]$/i
+  }], function(error, res) {
+    var devTools = res.redux_devtools.toUpperCase();
+
+    if (error) {
+      process.exit(1);
+    }
+
+    if (devTools.match(/^Y.*/)) {
+      replace({
+        regex: `const reduxExtension = (?:false|0)`,
+        replacement: `const reduxExtension = true`,
+        paths: ['config.js'],
+        recursive: false,
+        silent: true
+      });
+    }
+    else {
+      replace({
+        regex: `const reduxExtension = (?:true|1)`,
+        replacement: `const reduxExtension = false`,
+        paths: ['config.js'],
+        recursive: false,
+        silent: true
+      });
+    }
+
+    //Update package.json, site.yml, and style.css files with prompt data
+    updateConfig(responses);
+
+    //Write provision post script that activates this theme after setup
+    fs.writeFileSync('provision-post.sh', '#!/usr/bin/env bash\n\nsudo -u vagrant -- wp theme activate ' + result.name);
+
+    // Write config json file to use on front end
+    fs.writeFileSync('config.json', JSON.stringify(config, null, '\t'));
+
+    //Success Message
+    console.log(chalkSuccess('\nSetup complete! Edit the site.yml file to add/change more configuration options. When done, run \'yarn setup\' to complete setup.\n'));
+  });
+
   const responses = [
     {
       key: 'name',
@@ -174,12 +219,4 @@ prompt.get(schema, function (err, result) {
     }
   ];
 
-  //Update package.json, site.yml, and style.css files with prompt data
-  updateConfig(responses);
-
-  //Write provision post script that activates this theme after setup
-  fs.writeFileSync('provision-post.sh', '#!/usr/bin/env bash\n\nsudo -u vagrant -- wp theme activate ' + result.name);
-
-  //Success Message
-  console.log(chalkSuccess('\nSetup complete! Edit the site.yml file to add/change more configuration options. When done, run \'yarn setup\' to complete setup.\n'));
 });

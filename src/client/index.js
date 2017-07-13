@@ -6,9 +6,11 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { AppContainer } from 'react-hot-loader'
 import rootReducer from './reducers'
 import configureStore from './store/configureStore'
+import configureStoreExt from './store/configureStoreExt'
 import Routes from './Routes'
+const config = require('../../config.json')
 
-const store = configureStore(rootReducer)
+const store = (config.reduxExtension) ? configureStoreExt(rootReducer) : configureStore(rootReducer)
 const history = syncHistoryWithStore(browserHistory, store)
 const rootElm = document.getElementById('root')
 

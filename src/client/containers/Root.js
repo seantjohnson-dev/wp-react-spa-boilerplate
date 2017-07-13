@@ -2,11 +2,12 @@ import React from 'react'
 import Header from 'components/Header'
 import Footer from 'components/Footer'
 import DevTools from '../components/DevTools'
+const config = require('../../../config.json')
 
 const Root = ({ children }) => {
-  let tool
+  let tool = ''
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && !config.reduxExtension) {
     tool = <DevTools />
   }
 
