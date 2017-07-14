@@ -1,0 +1,53 @@
+@import './vars/colors';
+@import './vars/dimensions';
+@import './vars/fonts';
+
+.btn {
+  border-width: $border-width;
+  border-color: $border-color;
+  padding: $btn-padding-y $btn-padding-x;
+  transition: all 0.5s ease-out;
+}
+
+.btn-link {
+  composes: btn;
+  color: $link-color;
+  background-color: transparent;
+  border-color: transparent;
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+.btn-primary {
+  composes: btn;
+  color: $btn-primary-color;
+  background-color: $btn-primary-bg;
+  border-color: $btn-primary-border;
+  &:hover {
+    color: $btn-primary-color;
+    background-color: darken($btn-primary-bg, 10%);
+  }
+}
+
+.btn-secondary {
+  composes: btn;
+  color: $btn-secondary-color;
+  background-color: $btn-secondary-bg;
+  border-color: $btn-secondary-border;
+  &:hover {
+    color: $btn-secondary-color;
+    background-color: darken($btn-secondary-bg, 10%);
+  }
+}
+
+.btn-danger {
+  composes: btn;
+  color: $btn-danger-color;
+  background-color: $btn-danger-bg;
+  border-color: $btn-danger-border;
+  &:hover {
+    color: $btn-danger-color;
+    background-color: darken($btn-danger-bg, 10%);
+  }
+}

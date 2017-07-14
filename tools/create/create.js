@@ -1,13 +1,14 @@
 const fs = require('fs');
 const prompt = require('prompt');
-const optimist = require('optimist');
+// const optimist = require('optimist');
 const config = require('../../config');
 const replace = require("replace");
-var chalk = require('chalk');
+const chalk = require('chalk');
+const rimraf = require('rimraf');
 
-var chalkSuccess = chalk.green;
-var chalkProcessing = chalk.blue;
-var chalkWarn = chalk.red;
+const chalkSuccess = chalk.green;
+const chalkProcessing = chalk.blue;
+const chalkWarn = chalk.red;
 
 function updateConfig(responses) {
 
@@ -67,24 +68,24 @@ function updateConfig(responses) {
   });
 
   // remove create script from package.json
-  // replace({
-  //   regex: /\s*"create":.*,/,
-  //   replacement: "",
-  //   paths: ['package.json'],
-  //   recursive: false,
-  //   silent: true
-  // });
+  replace({
+    regex: /\s*"create":.*,/,
+    replacement: "",
+    paths: ['package.json'],
+    recursive: false,
+    silent: true
+  });
 
   // remove all create scripts from the 'tools' folder
-  // rimraf('./tools/create', error => {
-  //   if (error) throw new Error(error);
-  // });
+  rimraf('./tools/create', error => {
+    if (error) throw new Error(error);
+  });
 
 }
 
 const schema = require('./createPrompts');
 
-prompt.override = optimist.argv;
+// prompt.override = optimist.argv;
 
 prompt.start();
 
@@ -107,7 +108,7 @@ prompt.get(schema, function (err, result) {
       replace({
         regex: `const reduxExtension = (?:false|0)`,
         replacement: `const reduxExtension = true`,
-        paths: ['config.js'],
+        paths: ['src/client/index.js'],
         recursive: false,
         silent: true
       });
@@ -116,7 +117,7 @@ prompt.get(schema, function (err, result) {
       replace({
         regex: `const reduxExtension = (?:true|1)`,
         replacement: `const reduxExtension = false`,
-        paths: ['config.js'],
+        paths: ['src/client/index.js'],
         recursive: false,
         silent: true
       });
@@ -128,11 +129,8 @@ prompt.get(schema, function (err, result) {
     //Write provision post script that activates this theme after setup
     fs.writeFileSync('provision-post.sh', '#!/usr/bin/env bash\n\nsudo -u vagrant -- wp theme activate ' + result.name);
 
-    // Write config json file to use on front end
-    fs.writeFileSync('config.json', JSON.stringify(config, null, '\t'));
-
     //Success Message
-    console.log(chalkSuccess('\nSetup complete! Edit the site.yml file to add/change more configuration options. When done, run \'yarn setup\' to complete setup.\n'));
+    console.log(chalkSuccess('\nSetup complete! Edit the site.yml file to add/change more configuration options. When done, run \'yarn setup\' to complete setup. Cleaning up...\n'));
   });
 
   const responses = [

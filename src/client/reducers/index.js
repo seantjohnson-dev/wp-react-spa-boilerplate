@@ -37,7 +37,8 @@ function page (state = {}, action) {
       return Object.assign({}, state, {
         id: action.payload.id,
         title: action.payload.title,
-        content: action.payload.content
+        content: action.payload.content,
+        embedded: action.payload.embedded
       })
     default:
       return state

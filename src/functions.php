@@ -28,10 +28,13 @@ class Main {
 		  'SITE_URL' => get_site_url(),
 		  'API' => get_site_url() . '/wp-json/',
 			'POSTS_PER_PAGE' => get_option('posts_per_page'),
-		  'PAGE_ON_FRONT' => get_option('page_on_front')
+		  'PAGE_ON_FRONT' => get_option('page_on_front'),
+      'PAGE_FOR_POSTS' => get_option('page_for_posts')
 		);
 
-		wp_enqueue_style('sircus', 'https://unpkg.com/sircus@3.0.0/css/sircus.min.css', '', $theme_version);
+		// wp_enqueue_style('sircus', 'https://unpkg.com/sircus@3.0.0/css/sircus.min.css', '', $theme_version);
+    wp_enqueue_style('meyer-reset', 'https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css', '', $theme_version);
+    // wp_enqueue_style('app-bundle-css', get_template_directory_uri() . '/bundle.css', '', $theme_version);
 
     wp_register_script('app-bundle', get_template_directory_uri() . '/bundle.js', array(), $theme_version, true);
     wp_localize_script('app-bundle', 'WP_PARAMETERS', $wp_parameters);

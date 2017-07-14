@@ -1,8 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { routerReducer } from 'react-router-redux'
 
-export default function configureStoreExt(reducer, initialState) {
+export default function configureStoreExt (reducer, initialState) {
   let store
 
   const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)

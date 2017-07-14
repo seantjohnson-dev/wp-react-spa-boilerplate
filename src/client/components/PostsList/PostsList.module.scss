@@ -1,0 +1,20 @@
+@import '../../styles/vars/dimensions';
+
+.archive-list-wrap {
+  padding-top: $grid-gutter-width-base;
+  padding-bottom: $grid-gutter-width-base;
+}
+.postsList {
+  composes: btn-link from '../../styles/buttons.scss';
+  margin-bottom: 1rem;
+  display: block;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.post-item-title {
+  composes: h2 from '../../styles/typography.scss';
+}
+.post-item-title, p {
+  margin-bottom: 0;
+}

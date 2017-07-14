@@ -1,0 +1,47 @@
+$white:  #fff;
+$black:  #000;
+$red:    #d9534f;
+$orange: #f0ad4e;
+$yellow: #ffd500;
+$green:  #5cb85c;
+$blue:   #0275d8;
+$teal:   #5bc0de;
+$pink:   #ff5b77;
+$purple: #613d7c;
+
+$code-red: #bd4147;
+
+$gray-dark: #292b2c !default;
+$gray: #464a4c !default;
+$gray-light: #636c72 !default;
+$gray-lighter: #eceeef !default;
+$gray-lightest: #f7f7f9 !default;
+
+$brand-primary: $blue;
+$brand-inverse: $gray-dark;
+$brand-danger: $red;
+
+$body-bg: $white;
+$body-color: #292b2c;
+$link-color: $blue;
+$link-hover-color: darken($link-color, 15%);
+
+$border-color: $gray-light;
+
+$btn-primary-color: $white;
+$btn-primary-bg: $brand-primary;
+$btn-primary-border: $btn-primary-bg;
+
+$btn-secondary-color: $gray-dark;
+$btn-secondary-bg: $white;
+$btn-secondary-border: #ccc;
+
+$btn-danger-color: $white;
+$btn-danger-bg: $brand-danger;
+$btn-danger-border: $btn-danger-bg;
+
+$header-bg: $gray-dark;
+$header-color: $white;
+
+$footer-bg: $gray-dark;
+$footer-color: $white;

@@ -30,13 +30,14 @@ function receiveArchive (pageNum, totalPages, posts) {
   }
 }
 
-function receivePage (id, title, content) {
+function receivePage (id, title, content, embedded) {
   return {
     type: RECEIVE_PAGE,
     payload: {
       id: id,
       title: title,
-      content: content
+      content: content,
+      embedded: embedded
     }
   }
 }
@@ -53,40 +54,32 @@ export const getArchive = (pageNum = 1, totalPages, posts) => {
   }
 }
 
-export const getSingle = (params) => {
+export const getSingleByID = (id) => {
   return function (dispatch) {
     dispatch(requestApi(true))
 
-    return wp.posts().id(params.id).embed().then((res) => {
-      dispatch(receivePage(res.id, res.title.rendered, res.content.rendered))
+    return wp.posts().id(id).embed().then((res) => {
+      dispatch(receivePage(res.id, res.title.rendered, res.content.rendered, res._embedded))
     }).catch((err) => console.log(err))
   }
 }
 
-export const getPage = (route) => {
+export const getPageBySlug = (slug) => {
   return (dispatch, getState) => {
     dispatch(requestApi(true))
 
-    return wp.pages().slug(route.path).embed().then((res) => {
-      dispatch(receivePage(res[0].id, res[0].title.rendered, res[0].content.rendered))
+    return wp.pages().slug(slug).embed().then((res) => {
+      dispatch(receivePage(res[0].id, res[0].title.rendered, res[0].content.rendered, res._embedded))
     }).catch((err) => console.log(err))
   }
 }
 
-export const getFrontpage = () => {
-  return function (dispatch) {
+export const getPageByID = (id) => {
+  return (dispatch, getState) => {
     dispatch(requestApi(true))
-    if (WP_PAGE_ON_FRONT !== '0') {
-      wp.pages().id(WP_PAGE_ON_FRONT).embed().then((res) => {
-        dispatch(receivePage(res.id, res.title.rendered, res.content.rendered))
-      }).catch((err) => console.log(err))
-    } else {
-      const notFrontpage = {
-        id: '',
-        title: 'Frontpage',
-        content: 'No static Frontpage is selected.'
-      }
-      dispatch(receivePage(notFrontpage.id, notFrontpage.title, notFrontpage.content))
-    }
+
+    return wp.pages().id(id).embed().then((res) => {
+      dispatch(receivePage(res.id, res.title.rendered, res.content.rendered, res._embedded))
+    }).catch((err) => console.log(err))
   }
 }

@@ -8,9 +8,10 @@ import rootReducer from './reducers'
 import configureStore from './store/configureStore'
 import configureStoreExt from './store/configureStoreExt'
 import Routes from './Routes'
-const config = require('../../config.json')
+import styles from './styles/global.scss'
 
-const store = (config.reduxExtension) ? configureStoreExt(rootReducer) : configureStore(rootReducer)
+const reduxExtension = false
+const store = (reduxExtension) ? configureStoreExt(rootReducer) : configureStore(rootReducer)
 const history = syncHistoryWithStore(browserHistory, store)
 const rootElm = document.getElementById('root')
 

@@ -58,7 +58,7 @@ tasks.set('devServer', () => {
         `${config.dirs.dest}/index.php`,
         {
           match: [
-            'src/**/*.!(css|js)'
+            'src/**/*.!(scss|css|js)'
           ],
           fn: function (event, file) {
             if (file.endsWith('php')) bsHtmlInjector()

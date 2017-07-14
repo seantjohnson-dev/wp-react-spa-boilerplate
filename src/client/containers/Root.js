@@ -1,7 +1,7 @@
 import React from 'react'
-import Header from 'components/Header'
-import Footer from 'components/Footer'
-import DevTools from '../components/DevTools'
+import Header from '../components/Header/Header'
+import Footer from '../components/Footer/Footer'
+import DevTools from '../components/DevTools/DevTools'
 const config = require('../../../config.json')
 
 const Root = ({ children }) => {
@@ -12,9 +12,11 @@ const Root = ({ children }) => {
   }
 
   return (
-    <div className='Container Container--slim'>
+    <div className='app-wrapper'>
       <Header />
-      {children}
+      <div className="page-wrapper">
+        {children}
+      </div>
       <Footer />
       {tool}
     </div>

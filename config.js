@@ -4,7 +4,6 @@ const yaml = require('js-yaml')
 
 const wpSettings = yaml.safeLoad(fs.readFileSync('site.yml', 'utf8'))
 const themeName = pkg.name
-const reduxExtension = false
 
 module.exports = {
   port: 3004,
@@ -14,6 +13,5 @@ module.exports = {
   },
   wpSettings: wpSettings,
   url: wpSettings.hostname,
-  themeName: themeName,
-  reduxExtension: reduxExtension
+  themeName: themeName
 }

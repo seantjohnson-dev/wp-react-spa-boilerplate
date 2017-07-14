@@ -1,0 +1,331 @@
+@import './vars/colors';
+@import './vars/dimensions';
+@import './vars/fonts';
+
+.serif {
+  font-family: $serif;
+  font-weight: $serif-normal;
+}
+.serif-light {
+  @extend .serif;
+  font-weight: $serif-light;
+}
+.serif-semi {
+  @extend .serif;
+  font-weight: $serif-semi-bold;
+}
+.serif-bold {
+  @extend .serif;
+  font-weight: $serif-bold;
+}
+
+
+.sans-serif {
+  font-family: $sans-serif;
+  font-weight: $sans-serif-normal;
+}
+.sans-serif-light {
+  @extend .sans-serif;
+  font-weight: $serif-light;
+}
+.sans-serif-semi {
+  @extend .sans-serif;
+  font-weight: $serif-semi-bold;
+}
+.sans-serif-bold {
+  @extend .sans-serif;
+  font-weight: $serif-bold;
+}
+
+.monospace {
+  font-family: $monospace;
+  font-weight: $monospace-normal;
+}
+.monospace-light {
+  @extend .monospace;
+  font-weight: $monospace-light;
+}
+.monospace-semi {
+  @extend .monospace;
+  font-weight: $monospace-semi-bold;
+}
+.monospace-bold {
+  @extend .monospace;
+  font-weight: $monospace-bold;
+}
+
+// Heading Styles
+
+h1,h2,h3,h4,h5,h6 {
+  @extend .sans-serif-bold;
+  line-height: inherit;
+  margin-bottom: $headings-margin-bottom;
+  color: inherit;
+  font-style: inherit;
+}
+
+h1, .h1 {
+  font-size: $font-size-h1;
+}
+h2, .h2 {
+  font-size: $font-size-h2;
+}
+h3, .h3 {
+  font-size: $font-size-h3;
+}
+h4, .h4 {
+  font-size: $font-size-h4;
+}
+h5, .h5 {
+  font-size: $font-size-h5;
+}
+h6, .h6 {
+  font-size: $font-size-h6;
+}
+
+.dsp-light {
+  composes: sans-serif-light;
+}
+.dsp-normal {
+  composes: sans-serif;
+}
+.dsp-semi {
+  composes: sans-serif-semi;
+}
+
+
+
+// Text Styles
+
+p,span,ul,li,code,button,input,small,em {
+  @extend .serif;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-style: inherit;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  user-select: none;
+  transition: all 0.5s ease-out;
+  color: $link-color;
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+button, input, textarea {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+small {
+  font-size: ($font-size-base * 0.8);
+}
+
+sub, sup {
+  font-size: ($font-size-base * 0.8);
+  position: relative;
+  vertical-align: baseline;
+  line-height: 0;
+}
+sub {
+  bottom: -0.25em;
+}
+sup {
+  top: -0.5em;
+}
+
+cite, var {
+  font-style: italic;
+}
+
+cite {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: $sans-serif-semi-bold;
+}
+
+code {
+  @extend .monospace;
+  padding: .2rem .4rem;
+  font-size: 90%;
+  color: $code-red;
+  background-color: $gray-lightest;
+  border-radius: .25rem;
+}
+
+kbd {
+  @extend .monospace;
+  padding: .2rem .4rem;
+  font-size: 90%;
+  color: $white;
+  background-color: $gray-dark;
+  border-radius: .2rem;
+}
+
+del, strike {
+  text-decoration: line-through;
+}
+
+abbr[title], acronym[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+address {
+  padding: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  .google-link {
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-image: url(../images/maps-start-icon.png);
+    background-size: auto 24px;
+    margin: 0 10px;
+    padding: 0 10px;
+    transition: all .3s;
+    display: inline-block;
+    margin: 0;
+    flex: 0 0 40px;
+    max-width: 40px;
+  }
+  .address-link {
+    text-align: left;
+    line-height: $line-height-base;
+  }
+}
+
+q {
+  font-family: Georgia,Times New Roman,Times,serif;
+  &:before {
+    content: open-quote;
+  }
+  &:after {
+    content: close-quote;
+  }
+}
+
+blockquote {
+  background: $gray-lightest;
+  border-left: 10px solid $gray-light;
+  line-height: $line-height-base;
+  margin: 1.5em 10px;
+  padding: .5em 10px;
+  quotes: "“" "”" "‘" "’";
+  &:before {
+    content: open-quote;
+    font-size: 5.5em;
+    line-height: .6em;
+    margin-right: 10px;
+    vertical-align: top;
+    display: inline-block;
+    margin-top: -.5rem;
+    float: left;
+    height: 20px;
+    font-family: Georgia,Times New Roman,Times,serif;
+    color: $gray-light;
+  }
+  p {
+    word-break: break-word;
+    cite {
+      display: inline-block;
+      margin-left: 5px;
+      font-size: italic;
+      font-weight: $sans-serif-bold;
+    }
+  }
+}
+ul, ol {
+  display: block;
+  margin-bottom: 1rem;
+  ul {
+    padding-left: 40px;
+    list-style-type: circle;
+    ul {
+      list-style-type: square;
+    }
+  }
+  ol {
+    padding-left: 40px;
+    list-style-type: decimal;
+  }
+}
+
+p {
+  margin-bottom: 1rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+dl {
+  dt {
+    font-weight: $sans-serif-bold;
+    font-size: 1.1rem;
+  }
+  dd {
+    margin-bottom: 0.5rem;
+    margin-left: 0;
+    padding-left: 25px;
+  }
+}
+
+pre {
+  @extend .monospace;
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 90%;
+  color: $gray-dark;
+  clear: both;
+  color: $white;
+  background: rgba(0,0,0,.85);
+  padding: 1rem;
+  tab-size: 2;
+  word-break: normal;
+  hyphens: none;
+  position: relative;
+  line-height: 28px;
+  min-width: 100%;
+  white-space: pre-wrap;
+  code {
+    padding: 0;
+    color: inherit;
+    border-radius: 0;
+    font-size: .75rem;
+    background: none;
+    padding: 0;
+    white-space: pre-wrap;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    overflow-x: auto;
+    display: flex;
+  }
+}
+
+.txt {
+  font-weight: $serif-normal;
+}
+.txt-light {
+  composes: txt;
+  font-weight: $serif-light;
+}
+.txt-semi {
+  composes: txt;
+  font-weight: $serif-semi-bold;
+}
+.txt-bold {
+  composes: txt;
+  font-weight: $serif-bold;
+}

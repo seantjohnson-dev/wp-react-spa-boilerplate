@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getArchive } from '../actions'
 import { WP_SITE_TITLE } from '../constants'
-import PostsList from '../components/PostsList'
-import Loader from '../components/Loader'
+import PostsList from '../components/PostsList/PostsList'
+import Loader from '../components/Loader/Loader'
+import styles from '../components/PostsList/PostsList.module.scss'
 
 class Archive extends Component {
   componentWillMount () {
@@ -27,11 +28,16 @@ class Archive extends Component {
 
     document.title = 'Archive | ' + WP_SITE_TITLE
 
+    if (loading) {
+      return (<Loader />);
+    }
     return (
-      <div>
-        {loading ? <Loader /> : list}
-      </div>
-    )
+      <section styleName="archive-list-wrap">
+        <div className="container">
+          {list}
+        </div>
+      </section>
+    );
   }
 }
 

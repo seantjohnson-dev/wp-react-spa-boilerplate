@@ -1,0 +1,15 @@
+@import '../../styles/vars/colors';
+@import '../../styles/vars/dimensions';
+@import '../../styles/mixins/breakpoints';
+
+.footer {
+  color: $footer-color;
+  background-color: $footer-bg;
+  padding-top: $grid-gutter-width-half;
+  padding-bottom: $grid-gutter-width-half;
+  text-align: center;
+  flex: 0 0 auto;
+  @include bp-up(lg) {
+    text-align: left;
+  };
+}

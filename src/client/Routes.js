@@ -2,7 +2,6 @@ import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 import ReactGA from 'react-ga'
 import Root from './containers/Root'
-import Frontpage from './containers/Frontpage'
 import Archive from './containers/Archive'
 import Single from './containers/Single'
 import Page from './containers/Page'
@@ -19,7 +18,7 @@ const Routes = ({ history }) => {
   return (
     <Router history={history} onUpdate={logPageView} key={Math.random()}>
       <Route path='/' component={Root}>
-        <IndexRoute component={Frontpage} />
+        <IndexRoute component={Page} />
         <Route path='sample-page' component={Page} />
         <Route path='archives' component={Archive} />
         <Route path='archives/:id' component={Single} />

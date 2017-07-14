@@ -1,0 +1,144 @@
+@import '../../styles/vars/colors';
+@import '../../styles/vars/dimensions';
+@import '../../styles/vars/fonts';
+@import '../../styles/mixins/breakpoints';
+
+.post-detail {
+
+}
+.post-thumb-wrap {
+  width: 100%;
+  position: relative;
+}
+.feat-image {
+  display: block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.content-wrap {
+
+}
+.post-inner {
+  padding-top: $grid-gutter-width-base;
+  padding-bottom: $grid-gutter-width-base;
+}
+.post-title {
+  composes: h2 from '../../styles/typography.scss';
+}
+:global {
+  .post-content {
+    > p {
+      img {
+        &.alignleft {
+          float: left;
+          margin-left: 0;
+          margin-right: 1rem;
+          margin-bottom: 0.5rem;
+        }
+        &.alignright {
+          float: right;
+          margin-right: 0;
+          margin-left: 1rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+    > .alignleft {
+      float: left;
+      margin-left: 0;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+    }
+    > .alignright {
+      float: right;
+      margin-right: 0;
+      margin-left: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    > .aligncenter {
+      float: none;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      margin-left: auto;
+      margin-right: auto;
+      clear: both;
+      > img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    > .alignnone {
+      max-width: none;
+      width: 100% !important;
+      float: none;
+      height: auto;
+      display: block;
+      margin-left: 0;
+      margin-right: 0;
+      clear: both;
+      > img {
+        max-width: none;
+        width: 100%;
+        display: block;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    > .alignleft,
+    > .alignright,
+    > .aligncenter,
+    > .alignnone {
+      border: 5px solid $white;
+      border-radius: 5px;
+      box-shadow: 0px 0px 7px rgba(0,0,0,0.3);
+      &.wp-caption {
+        .wp-caption-text {
+          padding: 5px 0.5em;
+        }
+      }
+    }
+  }
+}
+.post-content {
+
+  > h1,
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6,
+  > p,
+  > strong,
+  > img,
+  > button,
+  > input,
+  > textarea,
+  > table,
+  > code,
+  > pre,
+  > ul,
+  > ol,
+  > address,
+  > dl {
+    margin-top: 1rem;
+    overflow: hidden;
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+    &:first-child {
+      margin-top: 0;
+    }
+    > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
