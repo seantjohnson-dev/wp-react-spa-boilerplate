@@ -1,10 +1,9 @@
-@import '../../styles/vars/colors';
-@import '../../styles/vars/dimensions';
-@import '../../styles/vars/fonts';
-@import '../../styles/mixins/breakpoints';
+@import '../../../styles/variables/admin_variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../styles/variables/colors';
 
 .post-detail {
-
+  flex: 1 1 100%;
 }
 .post-thumb-wrap {
   width: 100%;
@@ -24,7 +23,9 @@
   padding-bottom: $grid-gutter-width-base;
 }
 .post-title {
-  composes: h2 from '../../styles/typography.scss';
+  font-size: $font-size-h2;
+  font-weight: $font-weight-bold;
+  word-wrap: break-word;
 }
 :global {
   .post-content {

@@ -1,0 +1,224 @@
+// Additional Gray Colors
+
+$white: #fff;
+$black: #000;
+
+$gray-1: #111;
+$gray-2: #222;
+$gray-3: #333;
+$gray-4: #444;
+$gray-5: #555;
+$gray-6: #666;
+$gray-7: #777;
+$gray-8: #888;
+$gray-9: #999;
+$gray-A: #aaa;
+$gray-B: #bbb;
+$gray-C: #ccc;
+$gray-D: #ddd;
+$gray-E: #eee;
+
+
+// Primary Nav Colors
+$nav-bg: $white;
+
+$lvl-1-bg: $white;
+$lvl-1-color: $gray-3;
+$lvl-1-border: darken($lvl-1-bg, 5%);
+
+$lvl-1-bg-hover: $brand-primary;
+$lvl-1-color-hover: $white;
+$lvl-1-border-hover: darken($lvl-1-border, 5%);
+
+$lvl-2-bg: darken($lvl-1-bg, 10%);
+$lvl-2-color: $gray-3;
+$lvl-2-border: darken($lvl-2-bg, 5%);
+
+$lvl-2-bg-hover: darken($lvl-2-bg, 5%);
+$lvl-2-color-hover: darken($lvl-2-color, 5%);
+$lvl-2-border-hover: darken($lvl-2-border, 5%);
+
+$lvl-3-bg: $lvl-2-bg; //darken($lvl-2-bg, 10%);
+$lvl-3-color: $gray-2;
+$lvl-3-border: darken($lvl-3-bg, 5%);
+
+$lvl-3-bg-hover: darken($lvl-3-bg, 5%);
+$lvl-3-color-hover: darken($lvl-3-color, 5%);
+$lvl-3-border-hover: darken($lvl-3-border, 5%);
+
+$lvl-4-bg: $lvl-2-bg; //darken($lvl-3-bg, 10%);
+$lvl-4-color: $gray-2;
+$lvl-4-border: darken($lvl-4-bg, 5%);
+
+$lvl-4-bg-hover: darken($lvl-4-bg, 5%);
+$lvl-4-color-hover: darken($lvl-4-color, 5%);
+$lvl-4-border-hover: darken($lvl-4-border, 5%);
+
+$lvl-5-bg: $black; //darken($lvl-3-bg, 10%);
+$lvl-5-color: $white;
+$lvl-5-border: lighten($lvl-5-bg, 15%);
+
+$lvl-5-bg-hover: lighten($lvl-5-bg, 10%);
+$lvl-5-color-hover: darken($lvl-5-color, 20%);
+$lvl-5-border-hover: lighten($lvl-5-border, 5%);
+
+
+$lvl-1-bg-lg: transparent;
+$lvl-1-color-lg: $gray-3;
+$lvl-1-border-lg: transparent;
+
+$lvl-1-bg-hover-lg: transparent;
+$lvl-1-color-hover-lg: $brand-primary;
+$lvl-1-border-hover-lg: transparent;
+
+$lvl-2-bg-lg: transparent;
+$lvl-2-color-lg: $gray-3;
+$lvl-2-border-lg: $lvl-2-border;
+
+$lvl-2-bg-hover-lg: transparent;
+$lvl-2-color-hover-lg: $brand-primary;
+$lvl-2-border-hover-lg: $brand-primary;
+
+$lvl-3-bg-lg: transparent;
+$lvl-3-color-lg: $gray-3;
+$lvl-3-border-lg: transparent;
+
+$lvl-3-bg-hover-lg: transparent;
+$lvl-3-color-hover-lg: $brand-primary;
+$lvl-3-border-hover-lg: transparent;
+
+$lvl-4-bg-lg: transparent;
+$lvl-4-color-lg: $gray-3;
+$lvl-4-border-lg: transparent;
+
+$lvl-4-bg-hover-lg: transparent;
+$lvl-4-color-hover-lg: $brand-primary;
+$lvl-4-border-hover-lg: transparent;
+
+$lvl-5-bg-lg: transparent;
+$lvl-5-color-lg: $gray-3;
+$lvl-5-border-lg: transparent;
+
+$lvl-5-bg-hover-lg: transparent;
+$lvl-5-color-hover-lg: $brand-primary;
+$lvl-5-border-hover-lg: transparent;
+
+$lvl-colors: (
+	1: (
+		xs: (
+			bg: $white,
+			color: $gray-3,
+			border: darken($white, 5%),
+			hover: (
+				bg: $brand-primary,
+				color: $white,
+				border: darken(darken($white, 5%), 5%)
+			)
+		),
+		xl: (
+			bg: transparent,
+			color: $gray-3,
+			border: transparent,
+			hover: (
+				bg: transparent,
+				color: $gray-3,
+				border: transparent
+			)
+		)
+	),
+	2: (
+		xs: (
+			bg: darken($white, 10%),
+			color: $gray-3,
+			border: darken(darken($white, 10%), 5%),
+			hover: (
+				bg: darken(darken($white, 10%), 5%),
+				color: darken($gray-3, 5%),
+				border: darken(darken(darken($white, 10%), 5%), 5%)
+			)
+		),
+		xl: (
+			bg: transparent,
+			color: $gray-3,
+			border: darken(darken($white, 10%), 5%),
+			hover: (
+				bg: transparent,
+				color: $brand-primary,
+				border: $brand-primary
+			)
+		)
+	),
+	3: (
+		xs: (
+			bg: darken($white, 10%),
+			color: $gray-2,
+			border: darken(darken($white, 10%), 5%),
+			hover: (
+				bg: darken(darken($white, 10%), 5%),
+				color: darken($gray-2, 5%),
+				border: darken(darken(darken($white, 10%), 5%), 5%)
+			)
+		),
+		xl: (
+			bg: transparent,
+			color: $gray-3,
+			border: transparent,
+			hover: (
+				bg: transparent,
+				color: $brand-primary,
+				border: transparent
+			)
+		)
+	),
+	4: (
+		xs: (
+			bg: darken($white, 10%),
+			color: $gray-2,
+			border: darken(darken($white, 10%), 5%),
+			hover: (
+				bg: darken(darken($white, 10%), 5%),
+				color: darken($gray-2, 5%),
+				border: darken(darken(darken($white, 10%), 5%), 5%)
+			)
+		),
+		xl: (
+			bg: transparent,
+			color: $gray-3,
+			border: transparent,
+			hover: (
+				bg: transparent,
+				color: $brand-primary,
+				border: transparent
+			)
+		)
+	),
+	5: (
+		xs: (
+			bg: $black,
+			color: $white,
+			border: lighten($black, 15%),
+			hover: (
+				bg: lighten($black, 10%),
+				color: darken($white, 20%),
+				border: lighten(lighten($black, 15%), 5%)
+			)
+		),
+		xl: (
+			bg: transparent,
+			color: $gray-3,
+			border: transparent,
+			hover: (
+				bg: transparent,
+				color: $brand-primary,
+				border: transparent
+			)
+		)
+	)
+);
+
+
+$header-bg: $gray-dark;
+$header-color: $white;
+
+$footer-bg: $gray-dark;
+$footer-color: $white;

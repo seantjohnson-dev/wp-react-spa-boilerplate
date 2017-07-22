@@ -2,14 +2,11 @@ import React from 'react'
 import styles from './Post.module.scss'
 
 const Post = (props) => {
-  const renderMedia = (media = []) => {
-    if (media.length) {
-      const imgs = media.map((img, key) => {
-        return (<img key={key} src={img.file} alt={img.alt_text} title={img.title} className={(img.vertical) ? "portrait" : "landscape"} styleName="feat-image"/>);
-      });
+  const renderMedia = (media = {}) => {
+    if (Object.keys(media).length) {
       return (
         <div styleName="post-thumb-wrap">
-          {imgs}
+          <img src={media.file} alt={media.alt_text} title={media.title.rendered} className={(media.vertical) ? "portrait" : "landscape"} styleName="feat-image"/>
         </div>
       );
     }

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 import ReactGA from 'react-ga'
-import Root from './containers/Root'
-import Archive from './containers/Archive'
-import Single from './containers/Single'
-import Page from './containers/Page'
-import NoMatch from './containers/NoMatch'
+import Root from './containers/Root/Root'
+import Archive from './containers/Archive/Archive'
+import Single from './containers/Single/Single'
+import Page from './containers/Page/Page'
+import NoMatch from './containers/NoMatch/NoMatch'
 
 ReactGA.initialize('UA-000000-01')
 

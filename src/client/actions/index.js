@@ -1,14 +1,39 @@
+
+import moment from 'moment';
 import {
-  REQUEST_API,
-  RECEIVE_ARCHIVES,
-  RECEIVE_PAGE,
   WP_API,
   WP_POSTS_PER_PAGE,
-  WP_PAGE_ON_FRONT
+  WP_PAGE_ON_FRONT,
+  WP_PAGE_FOR_POSTS,
+  WP_NONCE,
+
+  REQUEST_API,
+  REQUEST_MENU_BY_ID,
+  REQUEST_MENU_BY_LOCATION,
+  REQUEST_PAGE_BY_ID,
+  REQUEST_PAGE_BY_SLUG,
+  REQUEST_ARCHIVE_BY_SLUG,
+  REQUEST_ARCHIVE_BY_ID,
+  REQUEST_ARCHIVES,
+
+  RECEIVE_MENU,
+  RECEIVE_MENU_ITEMS,
+  RECEIVE_PAGE,
+  RECEIVE_ARCHIVE,
+  RECEIVE_ARCHIVES
 } from '../constants'
 
-import Wpapi from 'wpapi'
-const wp = new Wpapi({ endpoint: WP_API })
+import WPAPI from 'wpapi'
+
+var apiRootJSON = require('../default-routes.json');
+
+const config = {
+    endpoint: WP_API,
+    routes: apiRootJSON,
+    nonce: WP_NONCE
+};
+
+const wp = new WPAPI(config)
 
 function requestApi (loading) {
   return {
@@ -19,67 +44,207 @@ function requestApi (loading) {
   }
 }
 
-function receiveArchive (pageNum, totalPages, posts) {
-  return {
-    type: RECEIVE_ARCHIVES,
-    payload: {
-      pageNum: pageNum,
-      totalPages: totalPages,
-      posts: posts
-    }
-  }
-}
 
-function receivePage (id, title, content, embedded) {
+function receivePage (page) {
   return {
     type: RECEIVE_PAGE,
     payload: {
-      id: id,
-      title: title,
-      content: content,
-      embedded: embedded
+      page: page
     }
   }
 }
 
-export const getArchive = (pageNum = 1, totalPages, posts) => {
-  return (dispatch, getState) => {
-    if (getState().data.archive.posts.length !== 0) return
-    dispatch(requestApi(true))
-
-    return wp.posts().page(pageNum).perPage(WP_POSTS_PER_PAGE).embed().then((res) => {
-      const totalPages = res._paging.totalPages
-      dispatch(receiveArchive(pageNum, totalPages, res))
-    }).catch((err) => console.log(err))
+function requestPageBySlug(slug) {
+  return {
+    type: REQUEST_PAGE_BY_SLUG,
+    payload: {
+      slug: slug
+    }
   }
 }
 
-export const getSingleByID = (id) => {
+function requestPageByID(id) {
+  return {
+    type: REQUEST_PAGE_BY_ID,
+    payload: {
+      id: id
+    }
+  }
+}
+
+function receiveArchive (archive) {
+  return {
+    type: RECEIVE_ARCHIVE,
+    payload: {
+      archive: archive
+    }
+  }
+}
+
+function requestArchiveBySlug(slug) {
+  return {
+    type: REQUEST_ARCHIVE_BY_SLUG,
+    payload: {
+      slug: slug
+    }
+  }
+}
+
+function requestArchiveByID(id) {
+  return {
+    type: REQUEST_ARCHIVE_BY_ID,
+    payload: {
+      id: id
+    }
+  }
+}
+
+function requestArchives(state = {
+  pageNum: 1
+}) {
+  return {
+    type: REQUEST_ARCHIVES,
+    payload: {
+      ...state
+    }
+  }
+}
+
+function receiveArchives(state = {
+    pageNum: 1,
+    totalPages: 0,
+    posts: {}
+  }) {
+  return {
+    type: RECEIVE_ARCHIVES,
+    payload: {
+      ...state
+    }
+  }
+}
+
+function receiveMenu (menu = {}) {
+  return {
+    type: RECEIVE_MENU,
+    payload: {
+      menu: menu
+    }
+  }
+}
+
+function receiveMenuItems(items) {
+  return {
+    type: RECEIVE_MENU_ITEMS,
+    payload: {
+      menu: {
+        items: items
+      }
+    }
+  }
+}
+
+function requestMenuByLocation(state = {
+    loading: true,
+    items: []
+  }) {
+  return {
+    type: REQUEST_MENU_BY_LOCATION,
+    payload: {
+      ...state
+    }
+  }
+}
+
+function requestMenuByID(state = {
+    loading: true,
+    menu: false
+  }) {
+  return {
+    type: REQUEST_MENU_BY_ID,
+    payload: {
+      ...state
+    }
+  }
+}
+
+export const getArchives = (pageNum = 1) => {
+  return (dispatch, getState) => {
+    const state = getState().data.archives;
+    const fetchedPage = (state.pagination.hasOwnProperty(pageNum));
+    if (fetchedPage) return;
+
+    dispatch(requestArchives(Object.assign({}, state, {pageNum})));
+
+    return wp.posts()
+    .page(pageNum)
+    .perPage(WP_POSTS_PER_PAGE)
+    .order('desc')
+    .embed().then((res) => {
+      let totalPages = 0;
+      if (res && res._paging && res._paging.totalPages) {
+        totalPages = parseInt(res._paging.totalPages);
+      }
+      dispatch(receiveArchives(Object.assign({}, state, {totalPages, pageNum, posts: res})))
+    }).catch((err) => console.log(err));
+  }
+}
+
+export const getArchiveBySlug = (slug) => {
+  return (dispatch, getState) => {
+    dispatch(requestArchiveBySlug(slug));
+
+    return wp.posts().slug(slug).embed().then((res) => {
+      dispatch(receiveArchive(res[0]))
+    }).catch((err) => console.log(err));
+  }
+}
+
+export const getArchiveByID = (id) => {
   return function (dispatch) {
-    dispatch(requestApi(true))
+    dispatch(requestArchiveByID(id))
 
     return wp.posts().id(id).embed().then((res) => {
-      dispatch(receivePage(res.id, res.title.rendered, res.content.rendered, res._embedded))
+      dispatch(receiveArchive(res))
     }).catch((err) => console.log(err))
   }
 }
 
 export const getPageBySlug = (slug) => {
   return (dispatch, getState) => {
-    dispatch(requestApi(true))
+    dispatch(requestPageBySlug(slug))
 
     return wp.pages().slug(slug).embed().then((res) => {
-      dispatch(receivePage(res[0].id, res[0].title.rendered, res[0].content.rendered, res._embedded))
+      dispatch(receivePage(res[0]))
     }).catch((err) => console.log(err))
   }
 }
 
 export const getPageByID = (id) => {
   return (dispatch, getState) => {
-    dispatch(requestApi(true))
+    dispatch(requestPageByID(id))
 
     return wp.pages().id(id).embed().then((res) => {
-      dispatch(receivePage(res.id, res.title.rendered, res.content.rendered, res._embedded))
+      dispatch(receivePage(res))
     }).catch((err) => console.log(err))
   }
 }
+
+export function getMenuByLocation( location = 'primary_navigation' ) {
+  return ( dispatch, getState ) => {
+    dispatch(requestMenuByLocation(location))
+
+    return wp.menus().location(location).embed().then((res) => {
+      dispatch(receiveMenu(res))
+    }).catch((err) => console.log(err))
+  }
+}
+
+// export function fetchAppRouteData() {
+//   return ( dispatch, getState ) => {
+//     dispatch(requestMenuByLocation(location))
+
+//     return wp.menus().location(location).embed().then((res) => {
+//       dispatch(receiveMenu(res))
+//     }).catch((err) => console.log(err))
+//   }
+// }

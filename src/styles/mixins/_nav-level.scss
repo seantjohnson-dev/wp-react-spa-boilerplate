@@ -1,0 +1,27 @@
+@mixin make-nav-levels($level: 0, $max: 5) {
+	// @if() {
+	// 	@each $depth in 
+	// }
+}
+@mixin make-nav-level($level: 0) {
+	$lvl-obj: map-get($lvl-colors, $level);
+	$lvl-xs: map-get($lvl-obj, xs);
+	$lvl-xl: map-get($lvl-obj, xl);
+	.level-#{$level}-list {
+		background-color: map-get($lvl-xs, bg);
+    @include media-breakpoint-up(xl) {
+      background-color: map-get($lvl-xl, bg);
+      transition: opacity $trans-fast;
+      opacity: 0;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      max-width: map-get($container-max-widths, xl);
+    }
+	}
+}

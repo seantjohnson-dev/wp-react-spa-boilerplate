@@ -1,0 +1,5 @@
+(function($) {
+  // Site title
+
+
+})(jQuery);

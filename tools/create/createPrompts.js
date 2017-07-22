@@ -4,7 +4,8 @@ module.exports = {
     name: {
       description: 'Project Name',
       type: 'string',
-      default: 'wp-react-spa-boilerplate',
+      // default: 'wp-react-spa-boilerplate',
+      default: 'react-boilerplate',
       pattern: /^[a-zA-Z0-9\-_]+$/,
       message: 'Only letters, numbers, underscores and dashes are allowed.',
       required: true
@@ -12,7 +13,8 @@ module.exports = {
     title: {
       description: 'Site Title',
       type: 'string',
-      default: 'WRSB',
+      // default: 'WRSB',
+      default: 'React Boilerplate',
       pattern: /^.+$/,
       message: 'A site title is required.',
       required: true
@@ -36,7 +38,8 @@ module.exports = {
     author: {
       description: 'Author',
       type: 'string',
-      default: 'blivesta',
+      // default: 'blivesta',
+      default: 'Sean Johnson',
       pattern: /^.*$/,
       message: 'An author name is required.',
       required: false
@@ -44,7 +47,8 @@ module.exports = {
     authorURI: {
       description: 'Author URI',
       type: 'string',
-      default: 'https://blivesta.com',
+      // default: 'https://blivesta.com',
+      default: 'https://github.com/seantjohnson-dev',
       pattern: /^.*$/,
       message: 'An author URI is required.',
       required: false
@@ -68,7 +72,8 @@ module.exports = {
     admin_user: {
       description: 'Admin Username',
       type: 'string',
-      default: 'admin',
+      // default: 'admin',
+      default: 'sjohnson',
       pattern: /^[a-zA-Z0-9\-_]+$/,
       message: 'Only letters, numbers, underscores and dashes are allowed.',
       required: true
@@ -76,7 +81,8 @@ module.exports = {
     admin_pass: {
       description: 'Admin Password',
       type: 'string',
-      default: 'admin',
+      // default: 'admin',
+      default: '1200GwoaTYSB#',
       pattern: /^[.\S]+$/,
       message: 'Password cannot be empty.',
       required: true
@@ -84,7 +90,8 @@ module.exports = {
     admin_email: {
       description: 'Admin Email',
       type: 'string',
-      default: 'vccw@example.com',
+      // default: 'vccw@example.com',
+      default: 'seantjohnson.development@gmail.com',
       format: 'email',
       required: true
     },
@@ -115,7 +122,8 @@ module.exports = {
     ip: {
       description: 'IP Address',
       type: 'string',
-      default: '192.168.33.168',
+      // default: '192.168.33.168',
+      default: '192.168.33.169',
       format: 'ip-address',
       required: false
     }

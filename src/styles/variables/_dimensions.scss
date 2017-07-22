@@ -1,0 +1,36 @@
+//Some sizing
+$xs: 479px;
+$sm: 768px;
+$md: 992px;
+$lg: 1200px;
+$xl: 1300px;
+
+//DOM Element fixed widths and heights
+$header-height: 50px;
+$header-height-md: 60px;
+$header-height-lg: 100px;
+$header-height-max-nav-items: 160px;
+
+$header-logo-width: 180px;
+$header-logo-width-sm: 220px;
+$header-logo-width-lg: 290px;
+
+$nav-width: 270px;
+$nav-border-width: 1px;
+$nav-width-md: 340px;
+$nav-item-height: 50px;
+$search-btn-width: $nav-item-height;
+$search-btn-width-lg: 60px;
+$menu-toggle-width: 34px;
+$desktop-search-width-hover: 200px;
+
+$grid-gutter-width: 15px;
+// $quick-links-height-lg: 40px;
+$quick-links-height-lg: 50px;
+
+$admin-bar-mobile-height: 46px;
+$admin-bar-height: 32px;
+
+$api-console-height: 50px;
+
+$spinner-width: 40px;

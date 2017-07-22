@@ -3,9 +3,11 @@
  */
 
 const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.config');
+const webpackConfig = (process.env.NODE_ENV === 'production') ? require('./webpack.config.prod') : require('./webpack.config.dev');
+var cmd=require('node-cmd');
 
 const tasks = new Map();
 
@@ -22,8 +24,9 @@ tasks.set('clean', () => require('del')([ config.dirs.dest ], { dot: true }));
 tasks.set('copy', (cb) => {
   const copy = require('copy')
   const wpThemeFiles = [
-    `${config.dirs.src}/*.{php,css,png}`,
-    `${config.dirs.src}/inc/*.php`
+    `${config.dirs.src}/*.{css,php,png,json,lock}`,
+    `${config.dirs.src}/inc/**/*.*`,
+    `${config.dirs.src}/vendor/**/*.*`
   ]
 
   copy(wpThemeFiles, config.dirs.dest, cb)
@@ -58,7 +61,7 @@ tasks.set('devServer', () => {
         `${config.dirs.dest}/index.php`,
         {
           match: [
-            'src/**/*.!(scss|css|js)'
+            'src/**/*.!(js)'
           ],
           fn: function (event, file) {
             if (file.endsWith('php')) bsHtmlInjector()
@@ -82,8 +85,9 @@ tasks.set('devServer', () => {
 tasks.set('watch', () => {
   const chokidar = require('chokidar')
   const staticFiles = [
-    `${config.dirs.src}/*.{php,css,png}`,
-    `${config.dirs.src}/inc/*.php`
+    `${config.dirs.src}/*.{css,php,png,json,lock}`,
+    `${config.dirs.src}/inc/**/*.*`,
+    `${config.dirs.src}/vendor/**/*.*`
   ]
   const staticFilesWatcher = chokidar.watch(staticFiles)
 
@@ -92,17 +96,30 @@ tasks.set('watch', () => {
   })
 });
 
+tasks.set('bootstrapRoutes', () => {
+  const cmd=require('node-cmd');
+
+  const scriptPath = path.join(__dirname, 'node_modules/wpapi/lib/data/update-default-routes-json.js');
+  const endpoint = 'http://' + config.url + '/wp-json/';
+  const output = path.join(__dirname, 'src/client');
+  const filename = 'default-routes.json';
+  const cmdScript = scriptPath + ' --output=' + output + ' --file=' + filename + ' --endpoint=' + endpoint;
+
+  cmd.run(cmdScript);
+
+});
+
 tasks.set('build', () => {
   return Promise.resolve()
     .then(() => run('clean'))
     .then(() => run('copy'))
+    .then(() => run('bootstrapRoutes'))
     .then(() => run('bundle'))
 });
 
 tasks.set('start', () => {
   return Promise.resolve()
-    .then(() => run('clean'))
-    .then(() => run('copy'))
+    .then(() => run('build'))
     .then(() => run('watch'))
     .then(() => run('devServer'))
 });

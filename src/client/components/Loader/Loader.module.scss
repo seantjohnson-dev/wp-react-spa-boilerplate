@@ -1,5 +1,7 @@
-@import '../../styles/vars/colors';
-@import '../../styles/vars/dimensions';
+@import '../../../styles/variables/admin_variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/dimensions';
 
 .loader {
   position: fixed;
@@ -12,30 +14,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column-reverse;
+  flex-direction: column;
+  background-color: rgba(255,255,255,0.8);
 }
 
 .spinner {
   width: $spinner-width;
   height: $spinner-width;
-  background-color: $brand-primary;
+  background-color: $gray-dark;
   border-radius: 100%;
   animation: sk-scaleout 1s infinite ease-in-out;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
   display: block;
-  z-index: 0;
+  z-index: 1;
 }
 .message {
-  composes: serif from '../../styles/typography.scss';
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-transform: uppercase;
   color: $body-color;
   font-weight: 400;
-  padding-top: ($spinner-width * 0.75);
-  padding-bottom: ($spinner-width * 0.75);
+  padding-top: (#{$spinner-width} * 0.75);
+  padding-bottom: (#{$spinner-width} * 0.75);
   text-align: center;
   font-size: 1rem;
   display: block;

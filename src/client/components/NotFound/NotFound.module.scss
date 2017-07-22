@@ -1,6 +1,7 @@
-@import '../../styles/vars/colors';
-@import '../../styles/vars/fonts';
-@import '../../styles/buttons';
+@import '../../../styles/variables/admin_variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../styles/variables/colors';
+
 
 .not-found-wrap {
   position: fixed;
@@ -20,14 +21,13 @@
   padding: 20px;
 }
 .error-code {
-  composes: h6 from '../../styles/typography.scss';
+  font-size: $font-size-h6;
   text-transform: uppercase;
   margin-bottom: 0.5em;
 }
 .error-description {
-  composes: h1 from '../../styles/typography.scss';
-  font-weight: $serif-normal;
-  text-transform: lowercase;
+  font-size: $font-size-h1;
+  font-weight: $font-weight-bold;
   margin-bottom: 0.5em;
   text-align: center;
 }
@@ -36,6 +36,7 @@
   margin-bottom: 1em;
 }
 .not-found-home-button {
-  composes: btn-danger from '../../styles/buttons.scss';
-  display: inline-block;
+  @extend .btn;
+  @extend .btn-danger;
+  @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }

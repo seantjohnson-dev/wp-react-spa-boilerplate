@@ -1,15 +1,20 @@
-@import '../../styles/vars/colors';
-@import '../../styles/vars/dimensions';
-@import '../../styles/mixins/breakpoints';
+@import '../../../styles/variables/admin_variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../styles/variables/colors';
 
 .footer {
   color: $footer-color;
   background-color: $footer-bg;
-  padding-top: $grid-gutter-width-half;
-  padding-bottom: $grid-gutter-width-half;
+  padding-top: ($grid-gutter-width-base/2);
+  padding-bottom: ($grid-gutter-width-base/2);
   text-align: center;
   flex: 0 0 auto;
-  @include bp-up(lg) {
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  @include media-breakpoint-up(lg) {
     text-align: left;
   };
 }

@@ -68,18 +68,18 @@ function updateConfig(responses) {
   });
 
   // remove create script from package.json
-  replace({
-    regex: /\s*"create":.*,/,
-    replacement: "",
-    paths: ['package.json'],
-    recursive: false,
-    silent: true
-  });
+  // replace({
+  //   regex: /\s*"create":.*,/,
+  //   replacement: "",
+  //   paths: ['package.json'],
+  //   recursive: false,
+  //   silent: true
+  // });
 
   // remove all create scripts from the 'tools' folder
-  rimraf('./tools/create', error => {
-    if (error) throw new Error(error);
-  });
+  // rimraf('./tools/create', error => {
+  //   if (error) throw new Error(error);
+  // });
 
 }
 
@@ -106,8 +106,8 @@ prompt.get(schema, function (err, result) {
 
     if (devTools.match(/^Y.*/)) {
       replace({
-        regex: `const reduxExtension = (?:false|0)`,
-        replacement: `const reduxExtension = true`,
+        regex: `window.useReduxExtension = (?:false|0)`,
+        replacement: `window.useReduxExtension = true`,
         paths: ['src/client/index.js'],
         recursive: false,
         silent: true
@@ -115,8 +115,8 @@ prompt.get(schema, function (err, result) {
     }
     else {
       replace({
-        regex: `const reduxExtension = (?:true|1)`,
-        replacement: `const reduxExtension = false`,
+        regex: `window.useReduxExtension = (?:true|1)`,
+        replacement: `window.useReduxExtension = false`,
         paths: ['src/client/index.js'],
         recursive: false,
         silent: true

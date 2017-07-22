@@ -1,0 +1,32 @@
+{
+  "name": "seanjohn/react_boilerplate",
+  "type": "wordpress-theme",
+  "license": "MIT",
+  "description": "React Boilerplate Wordpress theme",
+  "homepage": "https://google.com",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Sean Johnson",
+      "email": "seantjohnson.development@gmail.com",
+      "homepage": "https://github.com/seantjohnson-dev"
+    }
+  ],
+  "keywords": [
+    "wordpress"
+  ],
+  "repositories": [
+    {
+        "type": "composer",
+        "url": "https://wpackagist.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "SeanJohn\\": "inc/"
+    }
+  },
+  "require": {
+    "leafo/scssphp": "^0.6.6"
+  }
+}
