@@ -23,17 +23,8 @@ import {
   RECEIVE_ARCHIVES
 } from '../constants'
 
-import WPAPI from 'wpapi'
+import wp from '../api'
 
-var apiRootJSON = require('../default-routes.json');
-
-const config = {
-    endpoint: WP_API,
-    routes: apiRootJSON,
-    nonce: WP_NONCE
-};
-
-const wp = new WPAPI(config)
 
 function requestApi (loading) {
   return {

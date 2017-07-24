@@ -82,6 +82,18 @@
     }
   }
 }
+body#tinymce {
+  .gallery {
+    .gallery-icon {
+      img {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        height: auto;
+      }
+    }
+  }
+}
 @include media-breakpoint-up(sm) {
 
   .gallery-columns-2,

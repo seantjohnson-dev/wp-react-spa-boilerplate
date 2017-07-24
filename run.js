@@ -59,15 +59,18 @@ tasks.set('devServer', () => {
       port: `${config.port}`,
       files: [
         `${config.dirs.dest}/index.php`,
+        // `${config.dirs.dest}/main.global.css`,
+        // `${config.dirs.dest}/main.css`,
         {
           match: [
-            'src/**/*.!(js)'
+            'src/**/*.!(scss|css|js|jsx)'
           ],
           fn: function (event, file) {
             if (file.endsWith('php')) bsHtmlInjector()
           }
         }
       ],
+      host: '',
       proxy: {
         target: config.url,
         middleware: [

@@ -1,0 +1,42 @@
+@import '../../../styles/variables/admin_variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../styles/variables/colors';
+
+.nav-item {
+  flex: 1 1 auto;
+  color: $header-color;
+  &:first-child {
+    .nav-link {
+      padding-left: 0;
+    }
+  }
+  &:last-child {
+    .nav-link {
+      padding-right: 0;
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    flex: 0 1 auto;
+  };
+
+  .nav-link {
+    @extend .btn-link;
+    color: $header-color;
+    @include hover-focus {
+      color: darken($header-color, 20%);
+      background-color: transparent;
+      text-decoration: none;
+    }
+  }
+  // &:hover {
+  //   @extend .active-nav-item;
+  // }
+  &.active-nav-item {
+    .nav-link {
+      color: $brand-primary;
+      @include hover-focus {
+        color: lighten($brand-primary, 20%);
+      }
+    }
+  }
+}

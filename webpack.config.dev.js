@@ -21,21 +21,15 @@ const webpackConfig = {
       // must be first entry to properly set public path
       "babel-polyfill",
       'react-hot-loader/patch',
-      'webpack-hot-middleware/client?name=main&http://localhost:' + config.port + 'reload=true',
+      'webpack-hot-middleware/client?name=main&http://localhost:' + config.port + '?reload=true',
       path.join(__dirname, config.dirs.src + '/client/index.js'), // Defining path seems necessary for this to work consistently on Windows machines.
       path.join(__dirname, config.dirs.src + '/styles/main.scss')
     ],
     customizer: [
-      // 'babel-polyfill',
-      // 'react-hot-loader/patch',
-      'webpack-hot-middleware/client?name=customizer&http://localhost:' + config.port + 'reload=true',
       path.join(__dirname, config.dirs.src + '/client/customizer.js'),
       path.join(__dirname, config.dirs.src + '/styles/customizer.scss')
     ],
     admin: [
-      // 'babel-polyfill',
-      // 'react-hot-loader/patch',
-      'webpack-hot-middleware/client?name=admin&http://localhost:' + config.port + 'reload=true',
       path.join(__dirname, config.dirs.src + '/client/admin.js'),
       path.join(__dirname, config.dirs.src + '/styles/admin.scss')
     ]
@@ -118,7 +112,7 @@ const webpackConfig = {
         include: path.join(__dirname, config.dirs.src + "/styles/main.scss"),
         use: extractGlobalSASS.extract({
           fallback: 'style-loader?sourceMap',
-          use: ['css-loader?sourceMap','postcss-loader?sourceMap', 'sass-loader?sourceMap']
+          use: ['css-loader?sourceMap&importLoaders=2','postcss-loader?sourceMap', 'sass-loader?sourceMap']
         })
       },
       {
@@ -126,7 +120,7 @@ const webpackConfig = {
         include: path.join(__dirname, config.dirs.src + "/styles/customizer.scss"),
         use: extractGlobalSASS.extract({
           fallback: 'style-loader?sourceMap',
-          use: ['css-loader?sourceMap','postcss-loader?sourceMap', 'sass-loader?sourceMap']
+          use: ['css-loader?sourceMap&importLoaders=2','postcss-loader?sourceMap', 'sass-loader?sourceMap']
         })
       },
       {
@@ -134,12 +128,14 @@ const webpackConfig = {
         include: path.join(__dirname, config.dirs.src + "/styles/admin.scss"),
         use: extractGlobalSASS.extract({
           fallback: 'style-loader?sourceMap',
-          use: ['css-loader?sourceMap','postcss-loader?sourceMap', 'sass-loader?sourceMap']
+          use: ['css-loader?sourceMap&importLoaders=2','postcss-loader?sourceMap', 'sass-loader?sourceMap']
         })
       },
       {
-        test: /\.(sass|scss)$/,
-        exclude: path.join(__dirname, config.dirs.src + "/styles"),
+        test: /\.module\.(sass|scss)$/,
+        exclude: [
+          path.join(__dirname, config.dirs.src + "/styles")
+        ],
         use: [
           {
             loader: 'style-loader',

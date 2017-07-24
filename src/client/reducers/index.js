@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
 import omit from 'lodash/omit'
+import { routerReducer } from 'react-router-redux'
+import { wpReducer } from '../store/kasia'
 import {
   REQUEST_API,
   REQUEST_ARCHIVES,
@@ -248,17 +249,18 @@ const menus = (
   return {...state}
 }
 
-const data = combineReducers({
-  isLoading,
+const dataReducers = combineReducers({
+  isLoading: isLoading,
   menus: menus,
   page: page,
   archives: archives,
   archive: archive
+});
+
+const rootReducers = combineReducers({
+  data: dataReducers,
+  routing: routerReducer,
+  ...wpReducer
 })
 
-const rootReducer = combineReducers({
-  data,
-  routing: routerReducer
-})
-
-export default rootReducer
+export default rootReducers

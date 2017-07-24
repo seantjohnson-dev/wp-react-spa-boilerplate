@@ -1,17 +1,22 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
+// import thunk from 'redux-thunk'
 import DevTools from '../components/DevTools/DevTools'
+import rootSaga from './sagas'
+import createSagaMiddleware from 'redux-saga'
+import rootReducers from '../reducers'
 
-export default function configureStore (reducer, initialState) {
+export default function configureStore (initialState) {
   let store
 
-  const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
+  const sagaMiddleware = createSagaMiddleware()
+
+  const createStoreWithMiddleware = applyMiddleware(sagaMiddleware)(createStore)
 
   if (process.env.NODE_ENV === 'production') {
-    store = createStoreWithMiddleware(reducer, initialState)
+    store = createStoreWithMiddleware(rootReducers, initialState)
   } else {
     const enhancer = compose(DevTools.instrument())
-    store = createStoreWithMiddleware(reducer, initialState, enhancer)
+    store = createStoreWithMiddleware(rootReducers, initialState, enhancer)
 
     if (module.hot) {
       module.hot.accept('../reducers', () => {
@@ -19,6 +24,10 @@ export default function configureStore (reducer, initialState) {
       })
     }
   }
+  sagaMiddleware.run(rootSaga)
 
-  return store
+  return {
+    ...store,
+    runSaga: sagaMiddleware.run
+  }
 }

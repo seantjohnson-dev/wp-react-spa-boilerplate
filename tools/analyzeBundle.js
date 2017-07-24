@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-import config from '../webpack.config';
+const config = (process.env.NODE_ENV === 'production') ? require('../webpack.config.prod') : require('../webpack.config.dev');
 
 config.plugins.push(new BundleAnalyzerPlugin());
 

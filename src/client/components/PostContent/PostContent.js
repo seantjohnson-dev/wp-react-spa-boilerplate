@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from './Post.module.scss'
+import styles from './PostContent.module.scss'
 
-const Post = (props) => {
+const PostContent = (props) => {
   const renderMedia = (media = {}) => {
     if (Object.keys(media).length) {
       return (
@@ -13,11 +13,11 @@ const Post = (props) => {
     return '';
   }
   return (
-    <article styleName="post-detail" key={props.id}>
+    <article styleName="post-detail" key={props.id} style={props.style}>
       {renderMedia(props.media)}
       {props.children}
     </article>
   )
 }
 
-export default Post
+export default PostContent

@@ -21,7 +21,6 @@ class Acf extends BaseClass
         add_filter('acf/rest_api/page/get_fields', [$this, 'populate_flex_content_fields'], 10, 4);
         add_filter('acf/update_value/type=google_map', [$this, 'get_full_google_address_data'], 10, 3);
         add_filter('acf/load_value/type=google_map', [$this, 'remove_full_google_address_data'], 10, 3);
-        add_filter('rest_menus_format_menu', [$this, 'add_menu_item_children_to_menu_items']);
         add_action('save_post', function($id) {
             if (wp_is_post_revision($id)) return;
             $this->delete_page_transients($id, get_post($id));
@@ -205,83 +204,6 @@ class Acf extends BaseClass
       }
       return $api;
 
-    }
-
-    public function add_menu_item_children_to_menu_items($menu) {
-      $id = (isset($menu['ID']) ? $menu['ID'] : $menu['id']);
-      $menu_obj = (array) wp_get_nav_menu_object( $id );
-      $menu_items = wp_get_nav_menu_items( $id );
-      if (!empty($menu_items)) {
-        $rev_items = array_reverse ( $menu_items );
-        $rev_menu = [];
-        $cache = [];
-
-        foreach ( $rev_items as $item ) :
-
-          $formatted = array(
-            'ID'          => abs( $item->ID ),
-            'order'       => (int) $item->menu_order,
-            'parent'      => abs( $item->menu_item_parent ),
-            'title'       => $item->title,
-            'url'         => $item->url,
-            'attr'        => $item->attr_title,
-            'target'      => $item->target,
-            'classes'     => implode( ' ', $item->classes ),
-            'xfn'         => $item->xfn,
-            'description' => $item->description,
-            'object_id'   => abs( $item->object_id ),
-            'object'      => $item->object,
-            'type'        => $item->type,
-            'type_label'  => $item->type_label,
-            'children'    => array(),
-          );
-
-          if ( array_key_exists( $item->ID , $cache ) ) {
-            $formatted['children'] = array_reverse( $cache[ $item->ID ] );
-          }
-
-          $formatted = apply_filters( 'rest_menus_format_menu_item', $formatted );
-
-          if ( $item->menu_item_parent != 0 ) {
-
-            if ( array_key_exists( $item->menu_item_parent , $cache ) ) {
-              array_push( $cache[ $item->menu_item_parent ], $formatted );
-            } else {
-              $cache[ $item->menu_item_parent ] = array( $formatted, );
-            }
-
-          } else {
-
-            array_push( $rev_menu, $formatted );
-          }
-
-        endforeach;
-      }
-      $menu_obj['items'] = array_reverse( $rev_menu );
-      return $menu_obj;
-    }
-
-    public function get_nav_menu_item_children( $parent_id, $nav_menu_items, $depth = true ) {
-
-        $nav_menu_item_list = array();
-
-        foreach ( (array) $nav_menu_items as $nav_menu_item ) :
-
-            if ( $nav_menu_item->menu_item_parent == $parent_id ) :
-
-                $nav_menu_item_list[] = $this->format_menu_item( $nav_menu_item, true, $nav_menu_items );
-
-                if ( $depth ) {
-                    if ( $children = $this->get_nav_menu_item_children( $nav_menu_item->ID, $nav_menu_items ) ) {
-                        $nav_menu_item_list = array_merge( $nav_menu_item_list, $children );
-                    }
-                }
-
-            endif;
-
-        endforeach;
-
-        return $nav_menu_item_list;
     }
 
     public function get_full_post_object($obj) {

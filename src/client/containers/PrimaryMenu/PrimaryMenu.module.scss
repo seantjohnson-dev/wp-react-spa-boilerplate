@@ -1,0 +1,14 @@
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+
+.nav-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style-type: none;
+  @include media-breakpoint-up(lg) {
+    justify-content: flex-start;
+  };
+}

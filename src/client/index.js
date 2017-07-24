@@ -5,21 +5,18 @@ import { Provider } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { AppContainer } from 'react-hot-loader'
-import rootReducer from './reducers'
 import configureStore from './store/configureStore'
 import configureStoreExt from './store/configureStoreExt'
 import Routes from './Routes'
 import Perf from 'react-addons-perf'
 window.Perf = Perf
-import { configureUrlQuery } from 'react-url-query'
 
 document.createElement('picture')
 window.useReduxExtension = true
-const store = (useReduxExtension) ? configureStoreExt(rootReducer) : configureStore(rootReducer)
+const store = (useReduxExtension) ? configureStoreExt() : configureStore()
 const history = syncHistoryWithStore(browserHistory, store)
 const rootElm = document.getElementById('root')
 
-configureUrlQuery({ history })
 
 render(
   <AppContainer>

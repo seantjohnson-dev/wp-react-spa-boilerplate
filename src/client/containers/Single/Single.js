@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getArchiveByID } from '../../actions'
 import { WP_SITE_TITLE } from '../../constants'
-import Post from '../../components/Post/Post'
+import PostContent from '../../components/PostContent/PostContent'
 import Loader from '../../components/Loader/Loader'
-import styles from '../../components/Post/Post.module.scss'
+import styles from '../../components/PostContent/PostContent.module.scss'
+import parse from '../../helpers/htmlParser'
 
 class Single extends Component {
   componentDidMount () {
@@ -47,15 +48,18 @@ class Single extends Component {
         content: archive.content.rendered,
         media: this.getFeatMedia(media)
       };
+      const children = parse(postProps.content)
       return (
-        <Post {...postProps}>
-          <div className="container" styleName="content-wrap">
+        <PostContent {...postProps}>
+          <div className="container">
             <div styleName="post-inner">
               <h2 styleName="post-title" dangerouslySetInnerHTML={{__html: postProps.title}}/>
-              <div styleName="post-content" className="post-content" dangerouslySetInnerHTML={{__html: postProps.content}} />
+              <div styleName="post-content" className="post-content">
+                {children}
+              </div>
             </div>
           </div>
-        </Post>
+        </PostContent>
       );
     }
     return (<Loader />);

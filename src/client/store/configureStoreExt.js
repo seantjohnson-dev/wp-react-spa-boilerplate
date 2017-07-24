@@ -1,24 +1,29 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
+// import thunk from 'redux-thunk'
+import rootSaga from './sagas'
+import createSagaMiddleware from 'redux-saga'
+import rootReducers from '../reducers'
 
-export default function configureStoreExt (reducer, initialState) {
+export default function configureStoreExt (initialState) {
   let store
 
-  const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
+  const sagaMiddleware = createSagaMiddleware()
 
-  if (process.env.NODE_ENV === 'production') {
-    store = createStoreWithMiddleware(reducer, initialState)
-  } else {
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-    const enhancer = composeEnhancers(applyMiddleware(thunk))
-    store = createStore(reducer, enhancer)
+  const createStoreWithMiddleware = applyMiddleware(sagaMiddleware)(createStore)
 
-    if (module.hot) {
-      module.hot.accept('../reducers', () => {
-        store.replaceReducer(require('../reducers').default)
-      })
-    }
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+  const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware))
+  store = createStore(rootReducers, enhancer)
+  sagaMiddleware.run(rootSaga)
+
+  if (module.hot) {
+    module.hot.accept('../reducers', () => {
+      store.replaceReducer(require('../reducers').default)
+    })
   }
 
-  return store
+  return {
+    ...store,
+    runSaga: sagaMiddleware.run
+  }
 }

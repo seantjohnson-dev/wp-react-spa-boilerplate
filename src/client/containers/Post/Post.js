@@ -1,18 +1,17 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {getPageBySlug, getPageByID} from '../../actions'
-import { WP_SITE_TITLE, WP_PAGE_ON_FRONT, WP_PAGE_FOR_POSTS } from '../../constants'
-import PostContent from '../../components/PostContent/PostContent'
-import Loader from '../../components/Loader/Loader'
-import styles from '../../components/PostContent/PostContent.module.scss'
-import parse from '../../helpers/htmlParser'
+import React, { Component } from 'react'
 import { connectWpPost } from 'kasia/connect'
 import ContentTypes from 'kasia/types'
 
-@connectWpPost(ContentTypes.Page, (props) => {
-  return (props.params.slug || 'homepage');
+import Loader from '../../components/Loader/Loader'
+import PostContent from '../../components/PostContent/PostContent'
+import parse from '../../helpers/htmlParser'
+
+import styles from '../../components/PostContent/PostContent.module.scss'
+
+@connectWpPost(ContentTypes.Post, (props) => {
+  return props.params.slug;
 })
-export default class Page extends Component {
+export default class Post extends Component {
   getFeatMedia(obj = {}) {
     if (Object.keys(obj).length) {
       return {
@@ -29,23 +28,23 @@ export default class Page extends Component {
     return false;
   }
   render () {
-    const { page } = this.props.kasia
+    const { post } = this.props.kasia
 
-    if (!page) {
+    if (!post) {
       return <Loader />
     }
 
-    var media = (parseInt(page.featured_media) > 0) ? page._embedded['wp:featuredmedia'][0] : false;
+    var media = (parseInt(post.featured_media) > 0) ? post._embedded['wp:featuredmedia'][0] : false;
 
     const postProps = {
-      id: page.id,
-      title: page.title.rendered,
-      content: page.content.rendered,
+      id: post.id,
+      title: post.title.rendered,
+      content: post.content.rendered,
       media: this.getFeatMedia(media)
     };
     const children = parse(postProps.content)
     return (
-      <PostContent {...postProps} style={this.props.style}>
+      <PostContent {...postProps}>
         <div className="container">
           <div styleName="post-inner">
             <h2 styleName="post-title" dangerouslySetInnerHTML={{__html: postProps.title}}/>

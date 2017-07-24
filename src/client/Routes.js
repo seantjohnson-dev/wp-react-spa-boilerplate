@@ -2,8 +2,8 @@ import React from 'react'
 import { Router, Route, IndexRoute } from 'react-router'
 import ReactGA from 'react-ga'
 import Root from './containers/Root/Root'
-import Archive from './containers/Archive/Archive'
-import Single from './containers/Single/Single'
+import Posts from './containers/Posts/Posts'
+import Post from './containers/Post/Post'
 import Page from './containers/Page/Page'
 import NoMatch from './containers/NoMatch/NoMatch'
 
@@ -19,9 +19,9 @@ const Routes = ({ history }) => {
     <Router history={history} onUpdate={logPageView} key={Math.random()}>
       <Route path='/' component={Root}>
         <IndexRoute component={Page} />
-        <Route path='sample-page' component={Page} />
-        <Route path='archives' component={Archive} />
-        <Route path='archives/:id' component={Single} />
+        <Route path='/post/:slug' component={Post} />
+        <Route path='/posts(/:page)' component={Posts} />
+        <Route path='/:slug' component={Page} />
         <Route path='*' component={NoMatch} />
       </Route>
     </Router>

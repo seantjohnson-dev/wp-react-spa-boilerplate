@@ -80,26 +80,86 @@ class SeanJohn extends ManagerClass {
       add_action('wp_enqueue_scripts', [$this, 'assets'], 100);
       add_action('admin_enqueue_scripts', [$this, 'admin_assets'], 100);
       add_action('after_setup_theme', array($this, 'content_width'), 0);
-      add_filter('rest_menus_format_menu_item', [$this, 'add_menu_item_page_section_field_to_items']);
-      add_filter('rest_menus_format_menu', [$this, 'add_menu_item_page_section_field_to_menus']);
+      add_filter('rest_menus_format_menu', [$this, 'add_menu_item_children_to_menu_items']);
 
       return $this;
     }
 
-    public function add_menu_item_page_section_field_to_menus($menu) {
-      foreach($menu['items'] as $i=>$item) {
-        $id = (isset($item['ID']) ? $item['ID'] : $item['id']);
-        $page_section = get_post_meta($id, '_menu_item_page_section', true);
-        // Utils::data2file(get_template_directory() . '/dump.php', ['item' => $item, 'page_section' => $page_section], 'php');
-        $menu['items'][$i]['page_section'] = $page_section;
+    public function add_menu_item_children_to_menu_items($menu) {
+      $id = (isset($menu['ID']) ? $menu['ID'] : $menu['id']);
+      $menu_obj = (array) wp_get_nav_menu_object( $id );
+      $menu_items = wp_get_nav_menu_items( $id );
+      if (!empty($menu_items)) {
+        $rev_items = array_reverse ( $menu_items );
+        $rev_menu = [];
+        $cache = [];
+
+        foreach ( $rev_items as $item ) :
+
+          $formatted = array(
+            'ID'          => abs( $item->ID ),
+            'order'       => (int) $item->menu_order,
+            'parent'      => abs( $item->menu_item_parent ),
+            'title'       => $item->title,
+            'url'         => $item->url,
+            'attr'        => $item->attr_title,
+            'target'      => $item->target,
+            'classes'     => implode( ' ', $item->classes ),
+            'xfn'         => $item->xfn,
+            'description' => $item->description,
+            'object_id'   => abs( $item->object_id ),
+            'object'      => $item->object,
+            'type'        => $item->type,
+            'type_label'  => $item->type_label,
+            'children'    => array(),
+          );
+
+          if ( array_key_exists( $item->ID , $cache ) ) {
+            $formatted['children'] = array_reverse( $cache[ $item->ID ] );
+          }
+
+          $formatted = apply_filters( 'rest_menus_format_menu_item', $formatted );
+
+          if ( $item->menu_item_parent != 0 ) {
+
+            if ( array_key_exists( $item->menu_item_parent , $cache ) ) {
+              array_push( $cache[ $item->menu_item_parent ], $formatted );
+            } else {
+              $cache[ $item->menu_item_parent ] = array( $formatted, );
+            }
+
+          } else {
+
+            array_push( $rev_menu, $formatted );
+          }
+
+        endforeach;
       }
-      return $menu;
+      $menu_obj['items'] = array_reverse( $rev_menu );
+      return $menu_obj;
     }
 
-    public function add_menu_item_page_section_field_to_items($item) {
-      $id = (isset($item['ID']) ? $item['ID'] : $item['id']);
-      $item['page_section'] = get_post_meta($id, '_menu_item_page_section', true);
-      return $item;
+    public function get_nav_menu_item_children( $parent_id, $nav_menu_items, $depth = true ) {
+
+        $nav_menu_item_list = array();
+
+        foreach ( (array) $nav_menu_items as $nav_menu_item ) :
+
+            if ( $nav_menu_item->menu_item_parent == $parent_id ) :
+
+                $nav_menu_item_list[] = $this->format_menu_item( $nav_menu_item, true, $nav_menu_items );
+
+                if ( $depth ) {
+                    if ( $children = $this->get_nav_menu_item_children( $nav_menu_item->ID, $nav_menu_items ) ) {
+                        $nav_menu_item_list = array_merge( $nav_menu_item_list, $children );
+                    }
+                }
+
+            endif;
+
+        endforeach;
+
+        return $nav_menu_item_list;
     }
 
     public function theme_supports() {
@@ -168,6 +228,14 @@ class SeanJohn extends ManagerClass {
         $headerOpts['menu'] = $this->get_full_menu_object($headerOpts['menu']);
         $main_menu = $this->get_full_menu_object_by_location('primary_navigation');
 
+        // Utils::data2file(get_template_directory() . '/dump.php', ['site_url' => get_site_url()], 'json');
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+            // this is HTTPS
+            $protocol  = "/https:\/\//";
+        } else {
+            // this is HTTP
+            $protocol  = "/http:\/\//";
+        }
         // delete_transient('seanjohn-scripts-localized-data');
         // $localized = get_transient('seanjohn-scripts-localized-data');
         // if ($localized === false) {
@@ -175,6 +243,7 @@ class SeanJohn extends ManagerClass {
             'SITE_TITLE' => get_bloginfo('name'),
             'SITE_DESCRIPTION' => get_bloginfo('description'),
             'SITE_URL' => get_site_url(),
+            'WP_HOST' => preg_replace($protocol, '', get_site_url()),
             'API' => get_site_url() . '/wp-json/',
             'POSTS_PER_PAGE' => get_option('posts_per_page'),
             'PAGE_FOR_POSTS' => get_option('page_for_posts'),
@@ -233,7 +302,7 @@ class SeanJohn extends ManagerClass {
     }
 
     public function add_image_sizes() {
-        add_image_size( 'medium_large', '768', '0', false );
+        // add_image_size( 'medium_large', '768', '0', false );
         // add_image_size( 'mobile-home-hero', '576', '690', array( "1", "") );
         // add_image_size( 'tablet-home-hero', '1024', '768', array( "1", "") );
         // add_image_size( 'desktop-home-hero', '1440', '800', array( "1", "") );
@@ -242,12 +311,19 @@ class SeanJohn extends ManagerClass {
         // add_image_size( 'desktop-post-hero', '1440', '576', array( "1", "") );
         // add_image_size( 'tablet-post-hero', '1024', '640', array( "1", "") );
         // add_image_size( 'mobile-post-hero', '576', '576', array( "1", "") );
-        add_image_size( 'large-landscape', '1536', '960', array( "1", "") );
+
+        add_image_size( 'xl-landscape', '1920', '1200', array( "1", "") );
+        add_image_size( 'large-landscape', '1440', '900', array( "1", "") );
+        add_image_size( 'medium-landscape', '960', '600', array( "1", "") );
+        add_image_size( 'small-landscape', '576', '360', array( "1", "") );
         add_image_size( 'thumbnail-landscape', '320', '200', array( "1", "") );
-        add_image_size( 'thumbnail-portrait', '200', '320', array( "1", "") );
-        add_image_size( 'large-portrait', '960', '1536', array( "1", "") );
-        add_image_size( 'medium-landscape', '576', '360', array( "1", "") );
+
+        add_image_size( 'xl-portrait', '1200', '1920', array( "1", "") );
+        add_image_size( 'large-portrait', '900', '1440', array( "1", "") );
+        add_image_size( 'medium-portrait', '600', '960', array( "1", "") );
         add_image_size( 'medium-portrait', '360', '576', array( "1", "") );
+        add_image_size( 'thumbnail-portrait', '200', '320', array( "1", "") );
+
         add_image_size( 'medium-thumb', '384', '384', array( "1", "") );
         add_image_size( 'large-thumb', '825', '825', array( "1", "") );
         return $this;

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { getArchives } from '../../actions'
 import { WP_SITE_TITLE } from '../../constants'
 import Loader from '../../components/Loader/Loader'
-import PostsList from '../../components/PostsList/PostsList'
-import styles from '../../components/PostsList/PostsList.module.scss'
+import PostsListItem from '../../components/PostsListItem/PostsListItem'
+import styles from '../../components/PostsListItem/PostsListItem.module.scss'
 import { addUrlProps, UrlQueryParamTypes, subquery } from 'react-url-query'
 
 class Archive extends Component {
@@ -16,9 +16,6 @@ class Archive extends Component {
   componentDidMount () {
     this.props.getArchives(this.props.pageNum)
   }
-  // componentWillReceiveProps(nextProps, nextState) {
-  //   return true;
-  // }
   handleNextClick(e) {
     e.preventDefault()
 
@@ -40,16 +37,19 @@ class Archive extends Component {
       <section styleName="archive-list-wrap">
         {loading && <Loader/>}
         <div className="container">
-          {Object.keys(posts).map((id, index) => {
-            const obj = posts[id];
-            return (
-              <PostsList
-                key={index}
-                id={obj.id}
-                title={obj.title}
-                date={obj.date}/>
-            );
-          })}
+          <ul styleName="posts-list" className="posts-list">
+            {Object.values(posts).map((post, index) => {
+              return (
+                <PostsListItem
+                  key={index}
+                  id={post.id}
+                  title={post.title}
+                  date={post.date}
+                  excerpt={post.excerpt}
+                  slug={post.slug}/>
+              );
+            })}
+          </ul>
         </div>
         {(!allFetched) &&
           <div styleName="ajax-posts-btn-wrap" className="ajax-posts-btn-wrap">

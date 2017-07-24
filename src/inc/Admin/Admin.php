@@ -22,57 +22,24 @@ class Admin extends BaseClass
 
         add_filter('wp_title', ['SeanJohn\Admin\Admin', 'page_title'], 10, 3);
 
-        add_filter('the_content', [$this, 'filter_post_content_for_iframes']);
-
         // add_filter('post_type_link', [$this, 'format_post_type_permalinks'],10,4);
 
         add_filter('rest_post_collection_params', [$this, 'add_rest_orderby_params'], 10, 1 );
 
         register_nav_menus([
-            'primary_navigation' => __('Primary Navigation', TEXT_DOMAIN)
+            'primary_navigation' => __('Primary Navigation', TEXT_DOMAIN),
+            'primary' => __('Primary', TEXT_DOMAIN)
         ]);
-
-        add_filter('wp_setup_nav_menu_item', [$this, 'add_custom_page_section_menu_field']);
-        add_action('wp_update_nav_menu_item', [$this, 'update_custom_page_section_menu_field'], 10, 3 );
-        add_filter('wp_edit_nav_menu_walker', [$this, 'edit_menu_walker'], 10, 2 );
-
-    }
-
-    function filter_post_content_for_iframes($content)
-    {
-        return preg_replace('/<p>(\s*)(<iframe.*>.*<\/iframe .*>)(\s*)<\/p>/iU', '<div class=\"video-wrap\">\2<\/div>', $content);
-    }
-
-    public function edit_menu_walker($walker,$menu_id) {
-      return 'SeanJohn\\Walkers\\CustomNavMenuEditWalker';
-    }
-
-    public function add_custom_page_section_menu_field($menu_item) {
-      if ($menu_item->object == 'page' && intval($menu_item->object_id) !== $menu_item->ID) {
-        $menu_item->page_section = get_post_meta($menu_item->ID, '_menu_item_page_section', true );
-      }
-      return $menu_item;
-    }
-
-    function update_custom_page_section_menu_field( $menu_id, $menu_item_db_id, $args ) {
-
-        // Check if element is properly sent
-        if (isset($_REQUEST['menu-item-page-section']) && is_array($_REQUEST['menu-item-page-section']) && isset($_REQUEST['menu-item-page-section'][$menu_item_db_id])) {
-            $section_value = $_REQUEST['menu-item-page-section'][$menu_item_db_id];
-            if ($section_value) {
-              update_post_meta( $menu_item_db_id, '_menu_item_page_section', $section_value );
-            }
-        }
 
     }
 
     public function remove_menu_elements()
     {
         remove_submenu_page('themes.php', 'theme-editor.php');
-        remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=category'); // Categories Page
-        remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=post_tag'); // Tags Page
-        remove_menu_page('edit.php'); // Posts Page
-        remove_menu_page('edit-comments.php'); // Comments Page
+        // remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=category'); // Categories Page
+        // remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=post_tag'); // Tags Page
+        // remove_menu_page('edit.php'); // Posts Page
+        // remove_menu_page('edit-comments.php'); // Comments Page
     }
 
     public function add_upload_mime_types($mimes)
@@ -94,12 +61,12 @@ class Admin extends BaseClass
 
 
     public function auto_set_post_permalink_structure() {
-        return '/posts/%postname%';
+        return '/post/%postname%';
     }
 
     public function auto_set_permalink_structure() {
         global $wp_rewrite;
-        $wp_rewrite->permalink_structure = $wp_rewrite->root . 'posts/%postname%';
+        $wp_rewrite->permalink_structure = $wp_rewrite->root . 'post/%postname%';
         $wp_rewrite->page_structure      = $wp_rewrite->root . '%pagename%';
         $wp_rewrite->front               = $wp_rewrite->root;
     }
